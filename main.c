@@ -23,6 +23,7 @@
 int lsh_cd(char **args);
 int lsh_help(char **args);
 int lsh_exit(char **args);
+int lsh_ls(char **args);
 
 /*
   List of builtin commands, followed by their corresponding functions.
@@ -30,14 +31,19 @@ int lsh_exit(char **args);
 char *builtin_str[] = {
     "cd",
     "help",
-    "exit"
+    "exit",
+    "printwd",
 };
 
 int (*builtin_func[]) (char **) = {
     &lsh_cd,
     &lsh_help,
-    &lsh_exit
+    &lsh_exit,
+    &lsh_ls,
 };
+
+// Max Character Limit (max Ubuntu allows)
+int path_character_maximum = 4096;
 
 int lsh_num_builtins()
 {
@@ -98,6 +104,22 @@ int lsh_help(char **args)
 int lsh_exit(char **args)
 {
     return 0;
+}
+
+/**
+   @brief Builtin command: ls.
+   @param args List of args.  Not examined.
+   @return Always returns 1 to continue execution.
+ */
+int lsh_ls(char **args)
+{
+    char cwd[path_character_maximum];
+    if(getcwd(cwd, sizeof(cwd)) != NULL) {
+	printf("%s\n", cwd);
+    } else {
+	perror("Ls Error");
+    }
+    return 1;
 }
 
 /**
