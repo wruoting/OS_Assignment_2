@@ -113,9 +113,9 @@ int lsh_exit(char **args)
  */
 int lsh_ls(char **args)
 {
-    char cwd[path_character_maximum];
-    if(getcwd(cwd, sizeof(cwd)) != NULL) {
-	printf("%s\n", cwd);
+    char pwd[path_character_maximum];
+    if(getcwd(pwd, sizeof(pwd)) != NULL) {
+	printf("%s\n", pwd);
     } else {
 	perror("Ls Error");
     }
